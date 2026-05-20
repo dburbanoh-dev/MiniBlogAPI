@@ -68,8 +68,8 @@ miniblog/
 ### 1. Clonar el repositorio
 
 ```bash
-git clone https://github.com/<tu-usuario>/miniblog-api.git
-cd miniblog-api
+git clone https://github.com/dburbanoh-dev/.git
+cd Mini-Blog-API
 ```
 
 ### 2. Instalar dependencias
@@ -119,24 +119,35 @@ npm run dev
 npm start
 ```
 
-La API queda disponible en `http://localhost:3000`.  
-Comprobación rápida: `curl http://localhost:3000/health` → `{"status":"ok"}`
+La API queda disponible en `http://localhost:5000`.  
+Comprobación rápida: `curl http://localhost:5000/health` → `{"status":"ok"}`
 
 ---
 
 ## Endpoints disponibles
 
 | Método | Ruta | Descripción |
+
 | GET | /health | Health check |
+
 | GET | /api/users | Listar usuarios |
+
 | POST | /api/users | Crear usuario |
+
 | GET | /api/users/:id | Obtener usuario |
+
 | PATCH | /api/users/:id | Actualizar usuario |
+
 | DELETE | /api/users/:id | Eliminar usuario |
+
 | GET | /api/posts | Listar posts (`?user_id=1` opcional) |
+
 | POST | /api/posts | Crear post |
+
 | GET | /api/posts/:id | Obtener post |
+
 | PATCH | /api/posts/:id | Actualizar post |
+
 | DELETE | /api/posts/:id | Eliminar post |
 
 ---
@@ -155,23 +166,6 @@ npm run test:coverage
 
 ---
 
-## Documentación OpenAPI
-
-El archivo `docs/openapi.yaml` contiene la especificación completa OpenAPI 3.0.
-
-**Visualizar con Swagger UI (sin instalar nada):**
-
-1. Ve a [https://editor.swagger.io](https://editor.swagger.io)
-2. Copia y pega el contenido de `docs/openapi.yaml`
-
-**O con Swagger UI local:**
-
-```bash
-npx @redocly/cli preview-docs docs/openapi.yaml
-```
-
----
-
 ## Guía de deployment en Railway
 
 ### Pasos
@@ -182,7 +176,7 @@ npx @redocly/cli preview-docs docs/openapi.yaml
 
 3. **Agregar PostgreSQL**: dentro del proyecto Railway → "New" → "Database" → "PostgreSQL"
 
-4. **Variables de entorno**: en el servicio Node.js, Railway inyecta `DATABASE_URL` automáticamente cuando conectas el plugin de Postgres. Agrega manualmente:
+4. **Variables de entorno**: en el servicio Node.js, Railway inyecta `DATABASE` automáticamente cuando conectas el plugin de Postgres. Agrega manualmente:
 
    | Variable | Valor |
    | `NODE_ENV` | `production` |
@@ -236,11 +230,11 @@ posts
 Este proyecto fue desarrollado con asistencia de **Claude (Anthropic)** como herramienta de apoyo al desarrollo.
 
 | Área | Uso de IA |
+
 | Arquitectura | Validación de estructura de carpetas (controllers / services / routes) y separación de responsabilidades |
-| SQL | Revisión del DDL, elección de índices y constraints (FK, UNIQUE) |
+
 | Tests | Generación de mocks para pg y estructura de los test suites con Jest |
+
 | OpenAPI | Generación del borrador YAML y revisión de schemas |
-| README | Estructura y redacción de secciones de documentación |
-| Validaciones | Reglas de express-validator y manejo de códigos de error de PostgreSQL (23505, 23503) |
 
 Todo el código fue revisado, ajustado y validado por el equipo de desarrollo. La IA actuó como asistente, no como autor final.
