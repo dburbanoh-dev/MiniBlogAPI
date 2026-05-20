@@ -1,8 +1,3 @@
-/**
- * Unit tests for userService.
- * The pg pool is mocked so no real DB connection is needed.
- */
-
 jest.mock('../src/db', () => ({
     query: jest.fn(),
 }));
