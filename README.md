@@ -24,16 +24,16 @@ MiniBlog API es el backend inicial del servicio de contenidos de DevSpark. Expon
 
 miniblog/
 ├── src/
-│   ├── app.js               # Express app factory
-│   ├── index.js             # Entry point (listen)
-│   ├── db/index.js          # Pool pg + query helper
-│   ├── controllers/         # Handlers HTTP
+│   ├── app.js
+│   ├── index.js
+│   ├── db/index.js
+│   ├── controllers/
 │   │   ├── userController.js
 │   │   └── postController.js
-│   ├── services/            # Lógica de negocio + SQL
+│   ├── services/
 │   │   ├── userService.js
 │   │   └── postService.js
-│   ├── routes/              # Express routers + validaciones
+│   ├── routes/
 │   │   ├── users.js
 │   │   └── posts.js
 │   └── middleware/
@@ -42,34 +42,21 @@ miniblog/
 │   ├── userService.test.js
 │   ├── postService.test.js
 │   └── controllers.test.js
-├── scripts/
-│   ├── schema.sql           # DDL – tablas e índices
-│   ├── seed.sql             # Datos de prueba
-│   ├── setup.js             # Ejecuta schema.sql
-│   └── seed.js              # Ejecuta seed.sql
-├── docs/
-│   └── openapi.yaml         # Especificación OpenAPI 3.0
-├── .env.example
+├── sql/
+│   ├── seed.sql
+│   ├── setup.js
+│   └── seed.js
+├── .env
 ├── .gitignore
 └── README.md
-
----
-
-## Requisitos previos
-
-- Node.js ≥ 18
-- PostgreSQL ≥ 14 (local o en Railway)
-- npm ≥ 9
-
----
 
 ## Ejecución local
 
 ### 1. Clonar el repositorio
 
 ```bash
-git clone https://github.com/dburbanoh-dev/.git
-cd Mini-Blog-API
+git clone https://github.com/dburbanoh-dev/MiniBlogAPI.git
+cd MiniBlogAPI
 ```
 
 ### 2. Instalar dependencias
