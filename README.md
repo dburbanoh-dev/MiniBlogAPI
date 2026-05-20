@@ -112,7 +112,7 @@ npm run db:seed
 ### 6. Iniciar el servidor
 
 ```bash
-# Modo desarrollo (hot-reload)
+# Modo desarrollo
 npm run dev
 
 # Modo producción
@@ -162,9 +162,9 @@ npm test
 
 ## Guía de deployment en Railway
 
-### Pasos
+## Pasos
 
-1. **Crear cuenta** en [railway.app](https://railway.app)
+1. **Crear cuenta** en (https://railway.com/)
 
 2. **Nuevo proyecto** → "Deploy from GitHub repo" → selecciona este repositorio
 
