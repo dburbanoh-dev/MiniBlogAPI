@@ -12,8 +12,17 @@ const getUsers = async (req, res, next) => {
 
 const getUserById = async (req, res, next) => {
     try {
-        const user = await userService.getUserById(req.params.id);
+        const { id } = req.params;
+
+        // 1. Validar si el ID NO es un número entero válido
+        if (!Number.isInteger(Number(id))) {
+            return res.status(422).json({ error: 'El ID debe ser un número entero' });
+        }
+
+        // 2. Si es válido, continúa con tu lógica original usando la constante 'id'
+        const user = await userService.getUserById(id);
         if (!user) return res.status(404).json({ error: 'Usuario no encontrado' });
+
         res.json({ data: user });
     } catch (err) {
         next(err);
