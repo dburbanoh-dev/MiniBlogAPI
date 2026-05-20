@@ -1,8 +1,3 @@
--- ============================================================
---  MiniBlog – seed data (development only)
---  Idempotent: uses INSERT … ON CONFLICT DO NOTHING
--- ============================================================
-
 INSERT INTO users (username, email) VALUES
   ('Dario Burbano',   'dario@example.com'),
   ('Christian Gomez',     'Christian@example.com'),
