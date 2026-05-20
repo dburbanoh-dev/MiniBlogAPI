@@ -1,8 +1,8 @@
 const db = require('../db');
 
 /**
- * Retrieve all posts, joined with author username.
- * Optionally filter by user_id.
+ * Recupera todas las publicaciones, agrupadas por nombre de usuario del autor..
+ * Opcionalmente, puedes filtrar por ID de usuario..
  */
 const getAllPosts = async (userId) => {
     const base = `
@@ -25,8 +25,8 @@ const getAllPosts = async (userId) => {
 };
 
 /**
- * Retrieve a single post by id.
- * Returns null when not found.
+ * Recupera una sola publicación por ID.
+* Devuelve null si no se encuentra.
  */
 const getPostById = async (id) => {
     const { rows } = await db.query(
@@ -41,7 +41,7 @@ const getPostById = async (id) => {
 };
 
 /**
- * Create a new post.
+ * Crea un nuevo post.
  * @param {{ title: string, body: string, published?: boolean, user_id: number }} data
  */
 const createPost = async ({ title, body, published = false, user_id }) => {
@@ -55,8 +55,8 @@ const createPost = async ({ title, body, published = false, user_id }) => {
 };
 
 /**
- * Update a post by id.
- * Returns null when not found.
+ *Actualiza un post por id.
+ * Retorna null cuando no se encuentra.
  */
 const updatePost = async (id, { title, body, published }) => {
     const { rows } = await db.query(
@@ -73,8 +73,8 @@ const updatePost = async (id, { title, body, published }) => {
 };
 
 /**
- * Delete a post by id.
- * Returns true when deleted, false when not found.
+ * Elimina un post por id.
+ * Retorna true cuando elimina, false cuando no encuentra
  */
 const deletePost = async (id) => {
     const { rowCount } = await db.query('DELETE FROM posts WHERE id = $1', [id]);
