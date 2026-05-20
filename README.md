@@ -65,38 +65,25 @@ cd MiniBlogAPI
 npm install
 ```
 
-### 3. Configurar variables de entorno
-
-```bash
-cp .env.example .env
-# Edita .env con tu cadena de conexión PostgreSQL local
-```
-
-Ejemplo de `.env`:
-
-DATABASE_URL=postgres://postgres:password@localhost:5432/miniblog
-PORT=3000
-NODE_ENV=development
-
-### 4. Crear la base de datos (si no existe)
+### 3. Crear la base de datos (si no existe)
 
 ```bash
 psql -U postgres -c "CREATE DATABASE miniblog;"
 ```
 
-### 5. Ejecutar el schema SQL
+### 4. Ejecutar el schema SQL
 
 ```bash
 npm run db:setup
 ```
 
-### 6. (Opcional) Cargar datos de prueba
+### 5. (Opcional) Cargar datos de prueba
 
 ```bash
 npm run db:seed
 ```
 
-### 7. Iniciar el servidor
+### 6. Iniciar el servidor
 
 ```bash
 # Modo desarrollo (hot-reload)
@@ -165,27 +152,13 @@ npm run test:coverage
 
 4. **Variables de entorno**: en el servicio Node.js, Railway inyecta `DATABASE` automáticamente cuando conectas el plugin de Postgres. Agrega manualmente:
 
-   | Variable | Valor |
-   | `NODE_ENV` | `production` |
-   | `PORT` | Lo asigna Railway automáticamente |
-
 5. **Start command**: Railway detecta el `package.json` y usa `npm start`. Si no lo hace, ve a Settings → Start Command → `node src/index.js`
 
 6. **Inicializar el schema** una vez desplegado: en el shell de Railway (o desde tu máquina apuntando al `DATABASE_URL` de Railway):
 
-   ```bash
-   DATABASE_URL=<railway-url> npm run db:setup
-   ```
-
 7. **URLs**:
    - **Internal URL** (entre servicios dentro de Railway): `miniblog-api.railway.internal`
    - **Public URL**: visible en el panel de Railway → tu servicio → "Settings" → "Public Networking"
-
-### Variables de entorno en Railway
-
-DATABASE_URL   → inyectado automáticamente por el plugin PostgreSQL
-NODE_ENV       → production
-PORT           → inyectado automáticamente por Railway
 
 > ⚠️ Nunca subas el archivo `.env` a Git. Usa `.env.example` como plantilla y configura los valores reales en el panel de Railway.
 
