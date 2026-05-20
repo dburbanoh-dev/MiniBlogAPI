@@ -1,8 +1,3 @@
-/**
- * Controller-level tests using supertest.
- * The service layer is mocked – no DB connection required.
- */
-
 jest.mock('../src/services/userService');
 jest.mock('../src/services/postService');
 
