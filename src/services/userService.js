@@ -1,7 +1,7 @@
 const db = require('../db');
 
 /**
- * Retrieve all users (id, username, email, created_at).
+ * Devuelve todos los usuarios (id, username, email, created_at).
  */
 const getAllUsers = async () => {
     const { rows } = await db.query(
@@ -11,8 +11,8 @@ const getAllUsers = async () => {
 };
 
 /**
- * Retrieve a single user by id.
- * Returns null when not found.
+ * Recupera un único usuario por su ID.
+ * Devuelve null si no se encuentra.
  */
 const getUserById = async (id) => {
     const { rows } = await db.query(
@@ -23,7 +23,7 @@ const getUserById = async (id) => {
 };
 
 /**
- * Create a new user.
+ * Crea un nuevo usuario.
  * @param {{ username: string, email: string }} data
  */
 const createUser = async ({ username, email }) => {
@@ -37,8 +37,8 @@ const createUser = async ({ username, email }) => {
 };
 
 /**
- * Update username and/or email for an existing user.
- * Returns null when not found.
+ * Actualiza el nombre de usuario y el correo electrónico de un usuario existente.
+ * Devuelve null si no se encuentra.
  */
 const updateUser = async (id, { username, email }) => {
     const { rows } = await db.query(
@@ -53,8 +53,8 @@ const updateUser = async (id, { username, email }) => {
 };
 
 /**
- * Delete a user by id.
- * Returns true when deleted, false when not found.
+ * Elimina a un usario por id
+ * devuelve true cuando se elimina, false cuando no se encuntrs
  */
 const deleteUser = async (id) => {
     const { rowCount } = await db.query('DELETE FROM users WHERE id = $1', [id]);
