@@ -1,65 +1,71 @@
 const { validationResult } = require('express-validator');
-const userService = require('../services/userService');
+const postService = require('../services/postService');
 
-const getUsers = async (req, res, next) => {
+// 1. OBTENER TODOS LOS POSTS (GET /posts)
+const getPosts = async (req, res, next) => {
     try {
-        const users = await userService.getAllUsers();
-        res.json({ data: users });
+        const posts = await postService.getAllPosts();
+        res.json({ data: posts });
     } catch (err) {
         next(err);
     }
 };
 
-const getUserById = async (req, res, next) => {
+// 2. OBTENER UN POST POR ID (GET /posts/:id)
+const getPostById = async (req, res, next) => {
     try {
-        const user = await userService.getUserById(req.params.id);
-        if (!user) return res.status(404).json({ error: 'User not found' });
-        res.json({ data: user });
+        const post = await postService.getPostById(req.params.id);
+        if (!post) return res.status(404).json({ error: 'Post not found' });
+        res.json({ data: post });
     } catch (err) {
         next(err);
     }
 };
 
-const createUser = async (req, res, next) => {
-    try {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) return res.status(422).json({ errors: errors.array() });
-
-        const user = await userService.createUser(req.body);
-        res.status(201).json({ data: user });
-    } catch (err) {
-        // Unique constraint violation
-        if (err.code === '23505') {
-            return res.status(409).json({ error: 'Username or email already in use' });
-        }
-        next(err);
-    }
-};
-
-const updateUser = async (req, res, next) => {
+// 3. CREAR UN NUEVO POST (POST /posts)
+const createPost = async (req, res, next) => {
     try {
         const errors = validationResult(req);
         if (!errors.isEmpty()) return res.status(422).json({ errors: errors.array() });
 
-        const user = await userService.updateUser(req.params.id, req.body);
-        if (!user) return res.status(404).json({ error: 'User not found' });
-        res.json({ data: user });
+        const newPost = await postService.createPost(req.body);
+        res.status(201).json({ data: newPost });
     } catch (err) {
-        if (err.code === '23505') {
-            return res.status(409).json({ error: 'Username or email already in use' });
-        }
         next(err);
     }
 };
 
-const deleteUser = async (req, res, next) => {
+// 4. ACTUALIZAR UN POST EXISTENTE (PUT /posts/:id)
+const updatePost = async (req, res, next) => {
     try {
-        const deleted = await userService.deleteUser(req.params.id);
-        if (!deleted) return res.status(404).json({ error: 'User not found' });
-        res.status(204).send();
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) return res.status(422).json({ errors: errors.array() });
+
+        const updatedPost = await postService.updatePost(req.params.id, req.body);
+        if (!updatedPost) return res.status(404).json({ error: 'Post not found' });
+
+        res.json({ data: updatedPost });
     } catch (err) {
         next(err);
     }
 };
 
-module.exports = { getUsers, getUserById, createUser, updateUser, deleteUser };
+// 5. ELIMINAR UN POST (DELETE /posts/:id)
+const deletePost = async (req, res, next) => {
+    try {
+        const deletedPost = await postService.deletePost(req.params.id);
+        if (!deletedPost) return res.status(404).json({ error: 'Post not found' });
+
+        res.json({ message: 'Post deleted successfully', data: deletedPost });
+    } catch (err) {
+        next(err);
+    }
+};
+
+module.exports = {
+    getPosts,
+    getPostById,
+    createPost,
+    updatePost,
+    deletePost
+};
