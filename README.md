@@ -182,10 +182,6 @@ npm run test:coverage
 
 6. **Inicializar el schema** una vez desplegado: en el shell de Railway (o desde tu máquina apuntando al `DATABASE_URL` de Railway):
 
-7. **URLs**:
-   - **Internal URL** (entre servicios dentro de Railway): `miniblog-api.railway.internal`
-   - **Public URL**: visible en el panel de Railway → tu servicio → "Settings" → "Public Networking"
-
 > ⚠️ Nunca subas el archivo `.env` a Git. Usa `.env.example` como plantilla y configura los valores reales en el panel de Railway.
 
 ---
