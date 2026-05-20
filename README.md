@@ -23,31 +23,57 @@ MiniBlog API es el backend inicial del servicio de contenidos de DevSpark. Expon
 ## Estructura del proyecto
 
 miniblog/
+
 ├── src/
+
 │   ├── app.js
+
 │   ├── index.js
+
 │   ├── db/index.js
+
 │   ├── controllers/
+
 │   │   ├── userController.js
+
 │   │   └── postController.js
+
 │   ├── services/
+
 │   │   ├── userService.js
+
 │   │   └── postService.js
+
 │   ├── routes/
+
 │   │   ├── users.js
+
 │   │   └── posts.js
+
 │   └── middleware/
+
 │       └── errorHandler.js
+
 ├── tests/
+
 │   ├── userService.test.js
+
 │   ├── postService.test.js
+
 │   └── controllers.test.js
+
 ├── sql/
+
 │   ├── seed.sql
+
 │   ├── setup.js
+
 │   └── seed.js
+
 ├── .env
+
 ├── .gitignore
+
 └── README.md
 
 ## Ejecución local
