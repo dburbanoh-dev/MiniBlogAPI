@@ -103,7 +103,7 @@ psql -U postgres -c "CREATE DATABASE miniblog;"
 npm run db:setup
 ```
 
-### 5. (Opcional) Cargar datos de prueba
+### 5. Cargar datos de prueba
 
 ```bash
 npm run db:seed
@@ -160,12 +160,6 @@ Los tests son unitarios y no requieren base de datos (el pool de pg está mockea
 # Ejecutar todos los tests
 npm test
 
-# Con reporte de cobertura
-npm run test:coverage
-```
-
----
-
 ## Guía de deployment en Railway
 
 ### Pasos
@@ -176,11 +170,7 @@ npm run test:coverage
 
 3. **Agregar PostgreSQL**: dentro del proyecto Railway → "New" → "Database" → "PostgreSQL"
 
-4. **Variables de entorno**: en el servicio Node.js, Railway inyecta `DATABASE` automáticamente cuando conectas el plugin de Postgres. Agrega manualmente:
-
-5. **Start command**: Railway detecta el `package.json` y usa `npm start`. Si no lo hace, ve a Settings → Start Command → `node src/index.js`
-
-6. **Inicializar el schema** una vez desplegado: en el shell de Railway (o desde tu máquina apuntando al `DATABASE_URL` de Railway):
+4. **Start command**: Railway detecta el `package.json` y usa `npm start`. Si no lo hace, ve a Settings → Start Command → `node src/index.js`
 
 > ⚠️ Nunca subas el archivo `.env` a Git. Usa `.env.example` como plantilla y configura los valores reales en el panel de Railway.
 
