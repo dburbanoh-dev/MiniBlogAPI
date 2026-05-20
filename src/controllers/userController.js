@@ -13,7 +13,7 @@ const getUsers = async (req, res, next) => {
 const getUserById = async (req, res, next) => {
     try {
         const user = await userService.getUserById(req.params.id);
-        if (!user) return res.status(404).json({ error: 'User not found' });
+        if (!user) return res.status(404).json({ error: 'Usuario no encontrado' });
         res.json({ data: user });
     } catch (err) {
         next(err);
@@ -30,7 +30,7 @@ const createUser = async (req, res, next) => {
     } catch (err) {
         // Unique constraint violation
         if (err.code === '23505') {
-            return res.status(409).json({ error: 'Username or email already in use' });
+            return res.status(409).json({ error: 'El nombre de usuario o correo electrónico ya está en uso.El nombre de usuario o correo electrónico ya está en uso.' });
         }
         next(err);
     }
@@ -42,11 +42,11 @@ const updateUser = async (req, res, next) => {
         if (!errors.isEmpty()) return res.status(422).json({ errors: errors.array() });
 
         const user = await userService.updateUser(req.params.id, req.body);
-        if (!user) return res.status(404).json({ error: 'User not found' });
+        if (!user) return res.status(404).json({ error: 'Usuario no encontrado' });
         res.json({ data: user });
     } catch (err) {
         if (err.code === '23505') {
-            return res.status(409).json({ error: 'Username or email already in use' });
+            return res.status(409).json({ error: 'El nombre de usuario o correo electrónico ya está en uso.' });
         }
         next(err);
     }
@@ -55,7 +55,7 @@ const updateUser = async (req, res, next) => {
 const deleteUser = async (req, res, next) => {
     try {
         const deleted = await userService.deleteUser(req.params.id);
-        if (!deleted) return res.status(404).json({ error: 'User not found' });
+        if (!deleted) return res.status(404).json({ error: 'Usuario no encontrado' });
         res.status(204).send();
     } catch (err) {
         next(err);
