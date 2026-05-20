@@ -1,9 +1,3 @@
--- ============================================================
---  MiniBlog – database setup
---  Run once to create the schema.
---  Safe to re-run (uses IF NOT EXISTS).
--- ============================================================
-
 CREATE TABLE IF NOT EXISTS users (
   id         SERIAL PRIMARY KEY,
   username   VARCHAR(50)  NOT NULL UNIQUE,
