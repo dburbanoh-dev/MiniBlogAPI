@@ -1,0 +1,246 @@
+# MiniBlog API 🚀
+
+REST API para la plataforma **MiniBlog** de DevSpark. Gestiona usuarios y publicaciones con persistencia en PostgreSQL.
+
+---
+
+## Descripción del proyecto
+
+MiniBlog API es el backend inicial del servicio de contenidos de DevSpark. Expone endpoints CRUD para **usuarios** y **posts**, con validaciones, manejo de errores y documentación OpenAPI lista para ser consumida por el equipo frontend o integrada en pipelines de CI/CD.
+
+**Stack:**
+
+| Tecnología | Rol |
+| Node.js 18+ | Runtime |
+| Express 4 | Framework HTTP |
+| PostgreSQL | Base de datos |
+| pg | Driver SQL directo |
+| express-validator | Validaciones |
+| Jest + Supertest | Testing |
+
+---
+
+## Estructura del proyecto
+
+miniblog/
+├── src/
+│   ├── app.js               # Express app factory
+│   ├── index.js             # Entry point (listen)
+│   ├── db/index.js          # Pool pg + query helper
+│   ├── controllers/         # Handlers HTTP
+│   │   ├── userController.js
+│   │   └── postController.js
+│   ├── services/            # Lógica de negocio + SQL
+│   │   ├── userService.js
+│   │   └── postService.js
+│   ├── routes/              # Express routers + validaciones
+│   │   ├── users.js
+│   │   └── posts.js
+│   └── middleware/
+│       └── errorHandler.js
+├── tests/
+│   ├── userService.test.js
+│   ├── postService.test.js
+│   └── controllers.test.js
+├── scripts/
+│   ├── schema.sql           # DDL – tablas e índices
+│   ├── seed.sql             # Datos de prueba
+│   ├── setup.js             # Ejecuta schema.sql
+│   └── seed.js              # Ejecuta seed.sql
+├── docs/
+│   └── openapi.yaml         # Especificación OpenAPI 3.0
+├── .env.example
+├── .gitignore
+└── README.md
+
+---
+
+## Requisitos previos
+
+- Node.js ≥ 18
+- PostgreSQL ≥ 14 (local o en Railway)
+- npm ≥ 9
+
+---
+
+## Ejecución local
+
+### 1. Clonar el repositorio
+
+```bash
+git clone https://github.com/<tu-usuario>/miniblog-api.git
+cd miniblog-api
+```
+
+### 2. Instalar dependencias
+
+```bash
+npm install
+```
+
+### 3. Configurar variables de entorno
+
+```bash
+cp .env.example .env
+# Edita .env con tu cadena de conexión PostgreSQL local
+```
+
+Ejemplo de `.env`:
+
+DATABASE_URL=postgres://postgres:password@localhost:5432/miniblog
+PORT=3000
+NODE_ENV=development
+
+### 4. Crear la base de datos (si no existe)
+
+```bash
+psql -U postgres -c "CREATE DATABASE miniblog;"
+```
+
+### 5. Ejecutar el schema SQL
+
+```bash
+npm run db:setup
+```
+
+### 6. (Opcional) Cargar datos de prueba
+
+```bash
+npm run db:seed
+```
+
+### 7. Iniciar el servidor
+
+```bash
+# Modo desarrollo (hot-reload)
+npm run dev
+
+# Modo producción
+npm start
+```
+
+La API queda disponible en `http://localhost:3000`.  
+Comprobación rápida: `curl http://localhost:3000/health` → `{"status":"ok"}`
+
+---
+
+## Endpoints disponibles
+
+| Método | Ruta | Descripción |
+| GET | /health | Health check |
+| GET | /api/users | Listar usuarios |
+| POST | /api/users | Crear usuario |
+| GET | /api/users/:id | Obtener usuario |
+| PATCH | /api/users/:id | Actualizar usuario |
+| DELETE | /api/users/:id | Eliminar usuario |
+| GET | /api/posts | Listar posts (`?user_id=1` opcional) |
+| POST | /api/posts | Crear post |
+| GET | /api/posts/:id | Obtener post |
+| PATCH | /api/posts/:id | Actualizar post |
+| DELETE | /api/posts/:id | Eliminar post |
+
+---
+
+## Cómo ejecutar los tests
+
+Los tests son unitarios y no requieren base de datos (el pool de pg está mockeado).
+
+```bash
+# Ejecutar todos los tests
+npm test
+
+# Con reporte de cobertura
+npm run test:coverage
+```
+
+---
+
+## Documentación OpenAPI
+
+El archivo `docs/openapi.yaml` contiene la especificación completa OpenAPI 3.0.
+
+**Visualizar con Swagger UI (sin instalar nada):**
+
+1. Ve a [https://editor.swagger.io](https://editor.swagger.io)
+2. Copia y pega el contenido de `docs/openapi.yaml`
+
+**O con Swagger UI local:**
+
+```bash
+npx @redocly/cli preview-docs docs/openapi.yaml
+```
+
+---
+
+## Guía de deployment en Railway
+
+### Pasos
+
+1. **Crear cuenta** en [railway.app](https://railway.app)
+
+2. **Nuevo proyecto** → "Deploy from GitHub repo" → selecciona este repositorio
+
+3. **Agregar PostgreSQL**: dentro del proyecto Railway → "New" → "Database" → "PostgreSQL"
+
+4. **Variables de entorno**: en el servicio Node.js, Railway inyecta `DATABASE_URL` automáticamente cuando conectas el plugin de Postgres. Agrega manualmente:
+
+   | Variable | Valor |
+   | `NODE_ENV` | `production` |
+   | `PORT` | Lo asigna Railway automáticamente |
+
+5. **Start command**: Railway detecta el `package.json` y usa `npm start`. Si no lo hace, ve a Settings → Start Command → `node src/index.js`
+
+6. **Inicializar el schema** una vez desplegado: en el shell de Railway (o desde tu máquina apuntando al `DATABASE_URL` de Railway):
+
+   ```bash
+   DATABASE_URL=<railway-url> npm run db:setup
+   ```
+
+7. **URLs**:
+   - **Internal URL** (entre servicios dentro de Railway): `miniblog-api.railway.internal`
+   - **Public URL**: visible en el panel de Railway → tu servicio → "Settings" → "Public Networking"
+
+### Variables de entorno en Railway
+
+DATABASE_URL   → inyectado automáticamente por el plugin PostgreSQL
+NODE_ENV       → production
+PORT           → inyectado automáticamente por Railway
+
+> ⚠️ Nunca subas el archivo `.env` a Git. Usa `.env.example` como plantilla y configura los valores reales en el panel de Railway.
+
+---
+
+## Esquema de base de datos
+
+```sql
+users
+  id          SERIAL PRIMARY KEY
+  username    VARCHAR(50)  UNIQUE NOT NULL
+  email       VARCHAR(255) UNIQUE NOT NULL
+  created_at  TIMESTAMPTZ DEFAULT NOW()
+
+posts
+  id          SERIAL PRIMARY KEY
+  title       VARCHAR(255) NOT NULL
+  body        TEXT NOT NULL
+  published   BOOLEAN DEFAULT FALSE
+  user_id     INTEGER REFERENCES users(id) ON DELETE CASCADE
+  created_at  TIMESTAMPTZ DEFAULT NOW()
+  updated_at  TIMESTAMPTZ DEFAULT NOW()
+```
+
+---
+
+## Registro de uso de IA
+
+Este proyecto fue desarrollado con asistencia de **Claude (Anthropic)** como herramienta de apoyo al desarrollo.
+
+| Área | Uso de IA |
+| Arquitectura | Validación de estructura de carpetas (controllers / services / routes) y separación de responsabilidades |
+| SQL | Revisión del DDL, elección de índices y constraints (FK, UNIQUE) |
+| Tests | Generación de mocks para pg y estructura de los test suites con Jest |
+| OpenAPI | Generación del borrador YAML y revisión de schemas |
+| README | Estructura y redacción de secciones de documentación |
+| Validaciones | Reglas de express-validator y manejo de códigos de error de PostgreSQL (23505, 23503) |
+
+Todo el código fue revisado, ajustado y validado por el equipo de desarrollo. La IA actuó como asistente, no como autor final.

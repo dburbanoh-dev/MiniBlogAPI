@@ -1,0 +1,378 @@
+openapi: "3.0.3"
+info:
+  title: MiniBlog API
+  description: |
+    REST API for the MiniBlog service by DevSpark.
+    Manages users and blog posts backed by PostgreSQL.
+  version: "1.0.0"
+  contact:
+    name: DevSpark Backend Team
+
+servers:
+  - url: http://localhost:3000
+    description: Local development
+  - url: https://<your-railway-app>.up.railway.app
+    description: Production (Railway)
+
+tags:
+  - name: health
+    description: Service health
+  - name: users
+    description: User management
+  - name: posts
+    description: Post management
+
+paths:
+  /health:
+    get:
+      tags: [health]
+      summary: Health check
+      responses:
+        "200":
+          description: Service is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+
+  /api/users:
+    get:
+      tags: [users]
+      summary: List all users
+      responses:
+        "200":
+          description: Array of users
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/User"
+    post:
+      tags: [users]
+      summary: Create a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserInput"
+      responses:
+        "201":
+          description: User created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/User"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "422":
+          $ref: "#/components/responses/ValidationError"
+
+  /api/users/{id}:
+    parameters:
+      - $ref: "#/components/parameters/resourceId"
+    get:
+      tags: [users]
+      summary: Get a user by id
+      responses:
+        "200":
+          description: The user
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/User"
+        "404":
+          $ref: "#/components/responses/NotFound"
+    patch:
+      tags: [users]
+      summary: Update a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserUpdate"
+      responses:
+        "200":
+          description: Updated user
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/User"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "422":
+          $ref: "#/components/responses/ValidationError"
+    delete:
+      tags: [users]
+      summary: Delete a user
+      responses:
+        "204":
+          description: User deleted
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /api/posts:
+    get:
+      tags: [posts]
+      summary: List all posts
+      parameters:
+        - name: user_id
+          in: query
+          description: Filter posts by user id
+          required: false
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Array of posts
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Post"
+    post:
+      tags: [posts]
+      summary: Create a post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PostInput"
+      responses:
+        "201":
+          description: Post created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Post"
+        "422":
+          $ref: "#/components/responses/ValidationError"
+
+  /api/posts/{id}:
+    parameters:
+      - $ref: "#/components/parameters/resourceId"
+    get:
+      tags: [posts]
+      summary: Get a post by id
+      responses:
+        "200":
+          description: The post
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Post"
+        "404":
+          $ref: "#/components/responses/NotFound"
+    patch:
+      tags: [posts]
+      summary: Update a post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PostUpdate"
+      responses:
+        "200":
+          description: Updated post
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Post"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "422":
+          $ref: "#/components/responses/ValidationError"
+    delete:
+      tags: [posts]
+      summary: Delete a post
+      responses:
+        "204":
+          description: Post deleted
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+components:
+  parameters:
+    resourceId:
+      name: id
+      in: path
+      required: true
+      description: Resource integer id
+      schema:
+        type: integer
+        minimum: 1
+
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        username:
+          type: string
+          example: alice
+        email:
+          type: string
+          format: email
+          example: alice@example.com
+        created_at:
+          type: string
+          format: date-time
+
+    UserInput:
+      type: object
+      required: [username, email]
+      properties:
+        username:
+          type: string
+          minLength: 3
+          maxLength: 50
+          example: alice
+        email:
+          type: string
+          format: email
+          example: alice@example.com
+
+    UserUpdate:
+      type: object
+      properties:
+        username:
+          type: string
+          minLength: 3
+          maxLength: 50
+        email:
+          type: string
+          format: email
+
+    Post:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        title:
+          type: string
+          example: Hello World
+        body:
+          type: string
+          example: My first post.
+        published:
+          type: boolean
+          example: true
+        user_id:
+          type: integer
+          example: 1
+        author:
+          type: string
+          example: alice
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    PostInput:
+      type: object
+      required: [title, body, user_id]
+      properties:
+        title:
+          type: string
+          maxLength: 255
+          example: Hello World
+        body:
+          type: string
+          example: My first post.
+        published:
+          type: boolean
+          default: false
+        user_id:
+          type: integer
+          example: 1
+
+    PostUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+          maxLength: 255
+        body:
+          type: string
+        published:
+          type: boolean
+
+  responses:
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: User not found
+
+    Conflict:
+      description: Unique constraint violation
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: Username or email already in use
+
+    ValidationError:
+      description: Validation failed
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    field:
+                      type: string
+                    message:
+                      type: string
