@@ -4,14 +4,14 @@
 -- ============================================================
 
 INSERT INTO users (username, email) VALUES
-  ('alice',   'alice@example.com'),
-  ('bob',     'bob@example.com'),
-  ('charlie', 'charlie@example.com')
+  ('Dario Burbano',   'dario@example.com'),
+  ('Christian Gomez',     'Christian@example.com'),
+  ('Daniel Hernandez', 'daniel@example.com')
 ON CONFLICT DO NOTHING;
 
 INSERT INTO posts (title, body, published, user_id) VALUES
-  ('Hello World',      'My first post on MiniBlog!',          TRUE,  1),
-  ('Draft post',       'This is still work in progress.',      FALSE, 1),
-  ('Bob''s thoughts',  'Excited to join MiniBlog.',            TRUE,  2),
-  ('Charlie here',     'Just testing the platform.',           FALSE, 3)
+  ('Hola mundo',      'Mi primera publicación en MiniBlog!',          TRUE,  1),
+  ('Mundo Sofia',       'Pelicula favorita',      FALSE, 1),
+  ('Casa de papel',  'Serie de Netflix.',            TRUE,  2),
+  ('Fabrica de chocolate', 'Serie favorita.',           FALSE, 3)
 ON CONFLICT DO NOTHING;
