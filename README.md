@@ -170,7 +170,9 @@ npm test
 
 3. **Agregar PostgreSQL**: dentro del proyecto Railway → "New" → "Database" → "PostgreSQL"
 
-4. **Start command**: Railway detecta el `package.json` y usa `npm start`. Si no lo hace, ve a Settings → Start Command → `node src/index.js`
+4. **Start command**: Railway detecta el `package.json` y usa `npm start`. Si no lo hace, ve a Settings → Start Command → `node server/index.js`
+
+5. **URL Railway: https://miniblogapi-production-bf67.up.railway.app
 
 > ⚠️ Nunca subas el archivo `.env` a Git. Usa `.env.example` como plantilla y configura los valores reales en el panel de Railway.
 

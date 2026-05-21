@@ -1,3 +1,4 @@
+// db/index.js
 require('dotenv').config();
 const { Pool } = require('pg');
 
@@ -7,9 +8,9 @@ const pool = new Pool(
     isProduction
         ? {
             connectionString: process.env.DATABASE_URL,
-            ssl: {
-                rejectUnauthorized: false,
-            },
+            /* Quitamos el objeto 'ssl: { rejectUnauthorized: false }' 
+               ya que Railway no lo requiere internamente.
+            */
         }
         : {
             user: process.env.DB_USER,

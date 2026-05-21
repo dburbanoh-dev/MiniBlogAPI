@@ -2,7 +2,7 @@
   "name": "mini-blog-api",
   "version": "1.0.0",
   "description": "MiniBlog REST API DevSpark starter service for users and posts",
-  "main": "src/index.js",
+  "main": "server/index.js",
   "scripts": {
     "start": "node server/index.js",
     "dev": "nodemon server/index.js",
@@ -18,7 +18,9 @@
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "express-validator": "^7.3.2",
-    "pg": "^8.21.0"
+    "pg": "^8.21.0",
+    "swagger-ui-express": "^5.0.1",
+    "yamljs": "^0.3.0"
   },
   "devDependencies": {
     "jest": "^29.7.0",
