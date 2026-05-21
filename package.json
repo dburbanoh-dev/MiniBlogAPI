@@ -4,7 +4,7 @@
   "description": "MiniBlog REST API DevSpark starter service for users and posts",
   "main": "src/index.js",
   "scripts": {
-    "start": "node src/index.js",
+    "start": "node server/index.js",
     "dev": "nodemon server/index.js",
     "test": "jest --forceExit --runInBand",
     "test:coverage": "jest --forceExit --runInBand --coverage",
