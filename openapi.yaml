@@ -9,9 +9,9 @@ info:
     name: DevSpark Backend Team
 
 servers:
-  - url: http://localhost:3000
+  - url: http://localhost:5000
     description: Local development
-  - url: https://miniblogapi-production-bf67.up.railway.app
+  - url: https://miniblogapi-production-bf67.up.railway.app/api/users
     description: Production (Railway)
 
 tags:
