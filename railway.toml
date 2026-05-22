@@ -1,7 +1,0 @@
-[build]
-builder = "NIXPACKS"
-
-[deploy]
-# Aquí le decimos que ejecute el setup y el seed antes de iniciar
-preDeployCommand = "npm run db:setup && npm run db:seed"
-startCommand = "npm run start"
