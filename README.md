@@ -172,7 +172,9 @@ npm test
 
 4. **Start command**: Railway detecta el `package.json` y usa `npm start`. Si no lo hace, ve a Settings → Start Command → `node server/index.js`
 
-5. **URL Railway: https://miniblogapi-production-bf67.up.railway.app
+5. https://miniblogapi-production-bf67.up.railway.app/api/posts
+
+6. https://miniblogapi-production-bf67.up.railway.app/api/users
 
 > ⚠️ Nunca subas el archivo `.env` a Git. Usa `.env.example` como plantilla y configura los valores reales en el panel de Railway.
 
